@@ -11,12 +11,7 @@
  */
 
 (function() {
-    var PNGlib;
-    if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-        PNGlib = require('./pnglib');
-    } else {
-        PNGlib = window.PNGlib;
-    }
+    var PNGlib = window.PNGlib;
 
     var Identicon = function(hash, options){
         this.defaults = {
@@ -136,6 +131,8 @@
         }
     };
 
-    window.Identicon = Identicon;
-    
+    if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+        module.exports = Identicon;
+    } else {
+        window.Identicon = Identicon;
 })();
