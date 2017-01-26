@@ -113,8 +113,13 @@
             ];
         },
 
-        toString: function(){
-            return this.render().getBase64();
+        toString: function(type){
+            // backward compatibility with old toString, default to base64
+            if (type === 'svg') {
+                return this.render().getSvgElement();
+            } else {
+                return this.render().getBase64();
+            }
         },
 
         // Creates a consistent-length hash from a string
@@ -158,8 +163,8 @@
             return 'rgba(' + values.join(',') + ')';
         },
 
-        getBase64: function(){
-            var i,
+        getSvgElement: function(){
+          var i,
                 xml,
                 rect,
                 fg     = this.foreground,
@@ -181,10 +186,13 @@
                     + ' height="' + rect.h + '"'
                     + '/>';
             }
+            xml += '</g></svg>'
 
-            xml += '</g></svg>';
+            return xml;
+        },
 
-            return btoa(xml);
+        getBase64: function(){
+            return btoa(this.getSvgElement());
         }
     };
 
